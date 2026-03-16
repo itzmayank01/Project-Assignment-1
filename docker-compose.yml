@@ -1,0 +1,62 @@
+version: "3.9"
+
+services:
+
+  database:
+    build: ./database
+    container_name: postgres_db
+    env_file:
+      - .env
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      myipvlan:
+        ipv4_address: 192.168.10.100
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d testdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  backend:
+    build: ./backend
+    container_name: node_backend
+    env_file:
+      - .env
+    environment:
+      - DATABASE_HOST=database
+    depends_on:
+      database:
+        condition: service_healthy
+    ports:
+      - "3000:3000"
+    networks:
+      myipvlan:
+        ipv4_address: 192.168.10.101
+      host_bridge:
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
+volumes:
+  pgdata:
+    driver: local
+
+networks:
+  myipvlan:
+    driver: ipvlan
+    driver_opts:
+      ipvlan_mode: l2
+      parent: eth0
+    ipam:
+      config:
+        - subnet: 192.168.10.0/24
+          gateway: 192.168.10.1
+  host_bridge:
+    driver: bridge

@@ -23,7 +23,7 @@ docker-postgres-project/
 └── README.md
 ```
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 - Docker & Docker Compose installed

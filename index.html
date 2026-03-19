@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Docker Project — Mayank</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #f5f7fa;
+    color: #1a1a2e;
+    min-height: 100vh;
+  }
+
+  /* ── TOP BAR ── */
+  header {
+    background: #fff;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 0 2rem;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    font-size: 15px;
+    color: #1a1a2e;
+    text-decoration: none;
+  }
+  .logo-icon {
+    width: 32px; height: 32px;
+    background: #1a1a2e;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff;
+    font-size: 16px;
+  }
+  .header-github {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #1a1a2e;
+    color: #fff;
+    padding: 8px 18px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+  .header-github:hover { background: #2d2d4e; }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
+    color: #fff;
+    text-align: center;
+    padding: 5rem 1.5rem 4rem;
+  }
+  .hero-chip {
+    display: inline-block;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 12px;
+    color: #a0cfff;
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.04em;
+  }
+  .hero h1 {
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+  .hero h1 span { color: #4dabf7; }
+  .hero p {
+    color: #94a3b8;
+    font-size: 15px;
+    max-width: 500px;
+    margin: 0 auto 2.5rem;
+    line-height: 1.7;
+  }
+
+  .hero-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .big-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 28px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 0.15s, box-shadow 0.15s;
+    cursor: pointer;
+    border: none;
+  }
+  .big-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.25); }
+  .big-btn .btn-icon { font-size: 22px; }
+  .big-btn .btn-label { display: flex; flex-direction: column; text-align: left; }
+  .big-btn .btn-title { font-size: 15px; font-weight: 700; line-height: 1.2; }
+  .big-btn .btn-sub { font-size: 11px; font-weight: 400; opacity: 0.75; margin-top: 2px; }
+
+  .btn-github { background: #fff; color: #1a1a2e; }
+  .btn-pdf    { background: #e63946; color: #fff; }
+  .btn-md     { background: #2a9d8f; color: #fff; }
+
+  /* ── QUICK INFO STRIP ── */
+  .info-strip {
+    background: #fff;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 0.75rem 2rem;
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+    flex-wrap: wrap;
+  }
+  .info-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: #6b7280;
+  }
+  .info-item strong { color: #1a1a2e; }
+
+  /* ── MAIN ── */
+  main {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem 4rem;
+  }
+
+  .section-title {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #9ca3af;
+    margin-bottom: 1rem;
+    margin-top: 2.5rem;
+  }
+
+  /* ── ACCESS CARDS ── */
+  .access-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .access-card {
+    background: #fff;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 1.5rem;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+  }
+  .access-card:hover {
+    border-color: #4dabf7;
+    box-shadow: 0 4px 20px rgba(77,171,247,0.12);
+    transform: translateY(-2px);
+  }
+  .access-card.red:hover { border-color: #e63946; box-shadow: 0 4px 20px rgba(230,57,70,0.12); }
+  .access-card.green:hover { border-color: #2a9d8f; box-shadow: 0 4px 20px rgba(42,157,143,0.12); }
+  .card-icon-wrap {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    background: #f0f9ff;
+  }
+  .access-card.red .card-icon-wrap  { background: #fff5f5; }
+  .access-card.green .card-icon-wrap { background: #f0fdfb; }
+  .card-title { font-size: 15px; font-weight: 700; color: #1a1a2e; }
+  .card-desc  { font-size: 13px; color: #6b7280; line-height: 1.5; }
+  .card-action {
+    margin-top: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #4dabf7;
+  }
+  .access-card.red .card-action   { color: #e63946; }
+  .access-card.green .card-action { color: #2a9d8f; }
+
+  /* ── TOC ── */
+  .toc-grid {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .toc-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 14px 20px;
+    border-bottom: 1px solid #f3f4f6;
+    font-size: 14px;
+    color: #374151;
+    transition: background 0.15s;
+  }
+  .toc-item:last-child { border-bottom: none; }
+  .toc-item:hover { background: #f9fafb; }
+  .toc-num {
+    width: 26px; height: 26px;
+    border-radius: 7px;
+    background: #f0f9ff;
+    color: #4dabf7;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .toc-text { font-weight: 500; }
+  .toc-sub  { font-size: 12px; color: #9ca3af; margin-top: 2px; }
+  .toc-arrow { margin-left: auto; color: #d1d5db; font-size: 14px; }
+
+  /* ── STEPS ── */
+  .steps {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .step {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 16px 20px;
+    border-bottom: 1px solid #f3f4f6;
+    font-size: 14px;
+  }
+  .step:last-child { border-bottom: none; }
+  .step-num {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: #1a1a2e;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .step-title { font-weight: 600; color: #111827; margin-bottom: 3px; }
+  .step-desc  { color: #6b7280; font-size: 13px; line-height: 1.5; }
+  .step-desc code {
+    background: #f3f4f6;
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-family: monospace;
+    font-size: 12px;
+    color: #374151;
+  }
+
+  /* ── TECH TAGS ── */
+  .tech-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .tech-tag {
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    padding: 5px 12px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #374151;
+  }
+
+  footer {
+    text-align: center;
+    background: #fff;
+    border-top: 1px solid #e5e7eb;
+    padding: 1.5rem;
+    font-size: 13px;
+    color: #9ca3af;
+  }
+  footer a { color: #4dabf7; text-decoration: none; font-weight: 600; }
+
+  @media (max-width: 540px) {
+    .hero { padding: 3rem 1rem 3rem; }
+    .info-strip { gap: 1rem; }
+    .big-btn .btn-sub { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="#">
+    <div class="logo-icon">🐳</div>
+    Docker Project
+  </a>
+  <a class="header-github" href="https://github.com/itzmayank01/Project-Assignment-1/tree/main" target="_blank">
+    ⭐ GitHub Repo
+  </a>
+</header>
+
+<div class="hero">
+  <div class="hero-chip">📋 Project Report · March 2026</div>
+  <h1>Containerized Web App<br>with <span>PostgreSQL</span></h1>
+  <p>Docker Compose · Multi-Stage Builds · IPvlan/Macvlan Networking · Volume Persistence</p>
+
+  <div class="hero-buttons">
+    <a class="big-btn btn-github" href="https://github.com/itzmayank01/Project-Assignment-1/tree/main" target="_blank">
+      <span class="btn-icon">🐙</span>
+      <span class="btn-label">
+        <span class="btn-title">View on GitHub</span>
+        <span class="btn-sub">Browse all source files</span>
+      </span>
+    </a>
+    <a class="big-btn btn-pdf" href="https://github.com/itzmayank01/Project-Assignment-1/blob/main/Docker_Project_Report.pdf" target="_blank">
+      <span class="btn-icon">📄</span>
+      <span class="btn-label">
+        <span class="btn-title">Open PDF Report</span>
+        <span class="btn-sub">Read or download PDF</span>
+      </span>
+    </a>
+    <a class="big-btn btn-md" href="https://github.com/itzmayank01/Project-Assignment-1/blob/main/REPORT.md" target="_blank">
+      <span class="btn-icon">📝</span>
+      <span class="btn-label">
+        <span class="btn-title">Read Markdown</span>
+        <span class="btn-sub">REPORT.md on GitHub</span>
+      </span>
+    </a>
+  </div>
+</div>
+
+<div class="info-strip">
+  <div class="info-item">👤 <strong>itzmayank01</strong></div>
+  <div class="info-item">📅 <strong>March 2026</strong></div>
+  <div class="info-item">🐳 <strong>Docker Compose</strong></div>
+  <div class="info-item">🗄️ <strong>PostgreSQL 15</strong></div>
+  <div class="info-item">⚙️ <strong>Node.js + Express</strong></div>
+</div>
+
+<main>
+
+  <div class="section-title">Quick Access</div>
+  <div class="access-cards">
+    <a class="access-card" href="https://github.com/itzmayank01/Project-Assignment-1/tree/main" target="_blank">
+      <div class="card-icon-wrap">🐙</div>
+      <div>
+        <div class="card-title">GitHub Repository</div>
+        <div class="card-desc">Source code — Dockerfile, docker-compose.yml, backend, database scripts, screenshots.</div>
+      </div>
+      <div class="card-action">Open Repo →</div>
+    </a>
+    <a class="access-card red" href="https://github.com/itzmayank01/Project-Assignment-1/blob/main/Docker_Project_Report.pdf" target="_blank">
+      <div class="card-icon-wrap">📄</div>
+      <div>
+        <div class="card-title">PDF Report</div>
+        <div class="card-desc">Full formatted report with diagrams, screenshots, and analysis. Opens in browser or download.</div>
+      </div>
+      <div class="card-action">Open PDF →</div>
+    </a>
+    <a class="access-card green" href="https://github.com/itzmayank01/Project-Assignment-1/blob/main/REPORT.md" target="_blank">
+      <div class="card-icon-wrap">📝</div>
+      <div>
+        <div class="card-title">Markdown Report</div>
+        <div class="card-desc">REPORT.md — readable directly on GitHub with all sections and formatted content.</div>
+      </div>
+      <div class="card-action">Read Report →</div>
+    </a>
+    <a class="access-card" href="https://github.com/itzmayank01/Project-Assignment-1/tree/main/Screenshots" target="_blank">
+      <div class="card-icon-wrap" style="background:#fffbeb;">🖼️</div>
+      <div>
+        <div class="card-title">Screenshots</div>
+        <div class="card-desc">Container IPs, Docker network inspect, volume persistence test — visual proof of all tasks.</div>
+      </div>
+      <div class="card-action" style="color:#f59e0b;">View Screenshots →</div>
+    </a>
+  </div>
+
+  <div class="section-title">What's Inside the Report</div>
+  <div class="toc-grid">
+    <div class="toc-item"><div class="toc-num">1</div><div><div class="toc-text">Introduction</div><div class="toc-sub">Project overview, goals, and two-service architecture</div></div><div class="toc-arrow">›</div></div>
+    <div class="toc-item"><div class="toc-num">2</div><div><div class="toc-text">System Architecture</div><div class="toc-sub">Backend + PostgreSQL design with Docker Compose</div></div><div class="toc-arrow">›</div></div>
+    <div class="toc-item"><div class="toc-num">3</div><div><div class="toc-text">Multi-Stage Build Optimization</div><div class="toc-sub">Reducing image size from ~900 MB to ~150 MB</div></div><div class="toc-arrow">›</div></div>
+    <div class="toc-item"><div class="toc-num">4</div><div><div class="toc-text">Network Design</div><div class="toc-sub">Bridge, IPvlan, and Macvlan — setup and comparison</div></div><div class="toc-arrow">›</div></div>
+    <div class="toc-item"><div class="toc-num">5</div><div><div class="toc-text">Image Size Comparison</div><div class="toc-sub">Before/after metrics for multi-stage optimization</div></div><div class="toc-arrow">›</div></div>
+    <div class="toc-item"><div class="toc-num">6</div><div><div class="toc-text">Macvlan vs IPvlan Comparison</div><div class="toc-sub">Side-by-side feature and use-case analysis</div></div><div class="toc-arrow">›</div></div>
+    <div class="toc-item"><div class="toc-num">7</div><div><div class="toc-text">Volume Persistence</div><div class="toc-sub">Data surviving container restarts with named volumes</div></div><div class="toc-arrow">›</div></div>
+    <div class="toc-item"><div class="toc-num">8</div><div><div class="toc-text">Conclusion</div><div class="toc-sub">Key outcomes and learnings</div></div><div class="toc-arrow">›</div></div>
+  </div>
+
+  <div class="section-title" style="margin-top:2.5rem;">How to Access the Files</div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div>
+        <div class="step-title">Open the PDF Report</div>
+        <div class="step-desc">Click <strong>"Open PDF Report"</strong> above — opens in your browser. Save it with <code>Ctrl+S</code> or <code>Cmd+S</code>.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div>
+        <div class="step-title">Read the Markdown Report</div>
+        <div class="step-desc">Click <strong>"Read Markdown"</strong> — the <code>REPORT.md</code> file opens formatted on GitHub. No download needed.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div>
+        <div class="step-title">Browse Source Code</div>
+        <div class="step-desc">Click <strong>"View on GitHub"</strong> to explore Dockerfiles, compose config, backend code, and screenshots.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div>
+        <div class="step-title">Run It Locally</div>
+        <div class="step-desc">Clone the repo and run <code>docker compose up --build</code> — app starts at <code>localhost:3000</code>.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title" style="margin-top:2.5rem;">Technologies Used</div>
+  <div style="background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:1.25rem 1.5rem;">
+    <div class="tech-tags">
+      <span class="tech-tag">🐳 Docker</span>
+      <span class="tech-tag">🔧 Docker Compose</span>
+      <span class="tech-tag">🗄️ PostgreSQL 15</span>
+      <span class="tech-tag">⚡ Node.js 18</span>
+      <span class="tech-tag">🚀 Express.js</span>
+      <span class="tech-tag">🏗️ Multi-Stage Build</span>
+      <span class="tech-tag">🌐 IPvlan</span>
+      <span class="tech-tag">🔗 Macvlan</span>
+      <span class="tech-tag">💾 Volume Persistence</span>
+      <span class="tech-tag">🔄 REST API</span>
+      <span class="tech-tag">🐧 Alpine Linux</span>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  Made by <a href="https://github.com/itzmayank01/Project-Assignment-1/tree/main" target="_blank">itzmayank01</a> ·
+  Containerization &amp; Orchestration · March 2026
+</footer>
+
+</body>
+</html>
